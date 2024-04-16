@@ -19,7 +19,6 @@ This project simulates the daily operations of product shipments between multipl
 
 1. Clone the repository:
 git clone https://github.com/yourusername/HeatTrans.git
-cd HeatTrans
 
 2. Create and activate a virtual environment:
 python -m venv .venv
@@ -27,11 +26,11 @@ python -m venv .venv
 source .venv/bin/activate # On Unix or MacOS
 
 
-3. Install the required packages:
+4. Install the required packages:
 pip install -r requirements.txt
 
 
-4. Set up Hadoop and configure environment variables (if running locally on Windows):
+6. Set up Hadoop and configure environment variables (if running locally on Windows):
 - Download `winutils.exe` compatible with your Spark version.
 - Set `HADOOP_HOME` to the directory containing `bin` folder of `winutils.exe`.
 
