@@ -57,10 +57,3 @@ To analyze the results with PySpark:
 python src/pyspark_assignment.py
 
 
-## Reporting Bugs and Contributions
-- For reporting bugs, open an issue in the GitHub repository.
-- To contribute, fork the repository and make a pull request.
-
-## License
-Specify the license under which your project is made available (e.g., MIT, GPL).
-
