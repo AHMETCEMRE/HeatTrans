@@ -1,5 +1,7 @@
 import os
+import matplotlib.pyplot as plt
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
 
 # Initialize Spark session
 spark = SparkSession.builder.appName("Warehouse Product Analysis").getOrCreate()
@@ -14,28 +16,23 @@ df = spark.read.csv(data_file, header=True, inferSchema=True)
 # Show initial DataFrame to check results
 df.show()
 
-# Some example analysis
+# Some example analysis and visualization
 # Aggregate total products shipped to each destination
-total_shipments = df.groupBy('Destination').count()
+total_shipments = df.groupBy('product_destination').count()
 total_shipments.show()
 
-# Filter data for products where the test result was false
-false_tests = df.filter(df['Test Result'] == False)
-false_tests.show()
+# Convert Spark DataFrame to Pandas DataFrame for plotting
+total_shipments_pd = total_shipments.toPandas()
 
-# Sort data by new product ID in descending order
-sorted_data = df.orderBy(df['New Product ID'].desc())
-sorted_data.show()
-
-# Calculate the average new product ID per destination
-average_new_product_id = df.groupBy('Destination').avg('New Product ID')
-average_new_product_id.show()
-
-# Define output path for analysis results
-output_path = os.path.join(base_dir, 'analysis_results')
-
-# Save the analysis results to a file, overwrite if exists
-average_new_product_id.write.mode('overwrite').csv(output_path, header=True)
+# Plotting total shipments to each destination
+plt.figure(figsize=(10, 6))
+plt.bar(total_shipments_pd['product_destination'].astype(str), total_shipments_pd['count'], color='blue')
+plt.xlabel('Product Destination')
+plt.ylabel('Total Shipments')
+plt.title('Total Products Shipped to Each Destination')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
 
 # Stop the Spark session
 spark.stop()
