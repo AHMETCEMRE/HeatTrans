@@ -40,23 +40,30 @@ tests = {
 
 # Define the simulation function
 def simulate(days=10):
+    # Set the base directories for project data and documents using pathlib for OS independent paths
     project_dir = Path(__file__).parent.parent
     data_dir = project_dir / 'data'
     docs_dir = project_dir / 'docs'
     
+    # Load initial warehouse data from a text file in the docs directory
     warehouses = read_initial_data(docs_dir / 'dataset_assignment_data_engineer.txt')
-    results = []
+    results = []  # Initialize a list to store the results of each day's operations
 
+    # Simulate the operations for a given number of days
     for day in range(1, days + 1):
-        new_warehouses = {key: [] for key in warehouses}
+        new_warehouses = {key: [] for key in warehouses}  # Prepare a new structure for the next day's product storage
+        
+        # Process each warehouse's products
         for wh_id, products in warehouses.items():
             for product in products:
-                new_num = formulas[wh_id](product)
-                divisible, target_true, target_false = tests[wh_id](new_num)
-                new_wh_id = target_true if divisible else target_false
-                new_warehouses[new_wh_id].append(new_num)
-                results.append([wh_id, wh_id, product, new_num, divisible, day])
+                new_num = formulas[wh_id](product)  # Apply the transformation formula for the current warehouse
+                divisible, target_true, target_false = tests[wh_id](new_num)  # Determine the next warehouse based on divisibility test
+                new_wh_id = target_true if divisible else target_false  # Choose the destination warehouse
+                new_warehouses[new_wh_id].append(new_num)  # Assign the product to the new warehouse
+                # Log the product movement
+                results.append([wh_id, new_wh_id, product, new_num, divisible, day])
 
+        # Update the warehouses dictionary for the next day's simulation
         warehouses = new_warehouses
 
     # Save results to CSV
