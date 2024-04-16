@@ -25,14 +25,9 @@ python -m venv .venv
 .venv\Scripts\activate # On Windows
 source .venv/bin/activate # On Unix or MacOS
 
-
-4. Install the required packages:
+3. Install the required packages:
 pip install -r requirements.txt
 
-
-6. Set up Hadoop and configure environment variables (if running locally on Windows):
-- Download `winutils.exe` compatible with your Spark version.
-- Set `HADOOP_HOME` to the directory containing `bin` folder of `winutils.exe`.
 
 ### Running the Simulation
 To run the Python simulation:
